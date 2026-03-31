@@ -2,10 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Pull Latest Code') {
+        stage('Force Update Code') {
             steps {
                 dir('/opt/flaskapp/portfolio-flask') {
-                    sh 'git pull'
+                    sh '''
+                    git fetch --all
+                    git reset --hard origin/main
+                    '''
                 }
             }
         }
