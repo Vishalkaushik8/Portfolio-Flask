@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Pull Latest Code') {
+            steps {
+                dir('/opt/flaskapp/portfolio-flask') {
+                    sh 'git pull'
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir('/opt/flaskapp/portfolio-flask') {
+                    sh '/opt/flaskapp/portfolio-flask/venv/bin/pip install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Restart Application') {
+            steps {
+                sh 'sudo systemctl restart flaskapp'
+            }
+        }
+    }
+}
